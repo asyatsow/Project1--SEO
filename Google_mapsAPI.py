@@ -1,17 +1,21 @@
 import os
-from google import genai
-from google.genai import types
+import googlemaps
 
+# 1. Grab your Maps API key from the terminal environment
 my_api_key = os.getenv('GENAI_KEY')
 
-client = genai.Client(api_key=my_api_key)
+# 2. Initialize the Google Maps client
+gmaps = googlemaps.Client(key=my_api_key)
 
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    config=types.GenerateContentConfig(
-        system_instruction=" Provide concise, clear info on reccomended places based on my interest."
-    ), # 👈 Added a comma here to separate config from contents
-    contents="What are the best food prices based on my budget?", # 👈 Removed the accidental 'ls.' and closed the parenthesis ) here
-)
+# 3. Test it by searching for local businesses (e.g., bakeries in New York)
+# This is perfect for an SEO tool to see who is ranking!
+places_result = gmaps.places(query='bakery in New York')
 
-print(response.text)
+# 4. Print out the first result to make sure it works
+if places_result['results']:
+    first_business = places_result['results'][0]
+    print(f"Business Name: {first_business['name']}")
+    print(f"Address: {first_business['formatted_address']}")
+    print(f"Rating: {first_business.get('rating', 'No rating')}")
+else:
+    print("No businesses found or API key issue.")
