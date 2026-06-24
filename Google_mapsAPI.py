@@ -1,11 +1,16 @@
 import os
 import googlemaps
+import google import genai 
+
 
 # 1. Grab your Maps API key from the terminal environment
-my_api_key = os.getenv('GENAI_KEY')
+maps_key = os.getenv('MAPS_KEY')
+gemini_key = os.getenv('GEMINI_KEY')
+
 
 # 2. Initialize the Google Maps client
 gmaps = googlemaps.Client(key=my_api_key)
+genai = genai.Client(api_key = gemini_key)
  
 # 3. Test it by searching for local businesses (e.g., bakeries in New York)
 
