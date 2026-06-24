@@ -6,9 +6,9 @@ my_api_key = os.getenv('GENAI_KEY')
 
 # 2. Initialize the Google Maps client
 gmaps = googlemaps.Client(key=my_api_key)
-
+ 
 # 3. Test it by searching for local businesses (e.g., bakeries in New York)
-# This is perfect for an SEO tool to see who is ranking!
+
 places_result = gmaps.places(query='bakery in New York')
 
 # 4. Print out the first result to make sure it works
