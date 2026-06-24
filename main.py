@@ -21,6 +21,13 @@ def get_coordinates(location):
     lattitude, longitude = coordinates['lat'],coordinates['lng']
     return (lattitude,longitude)
 
+    location = input("Where are you heading")
+    lat,long = get_coordinates("Brooklyn, NY")
+    print(lat)
+    print(long)
+
+    
+
 
 
 
