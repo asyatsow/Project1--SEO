@@ -23,15 +23,59 @@ def create_database():
             user_id INTEGER,
             activity_id INTEGER,
             PRIMARY KEY (user_id,activity_id)
-        )
-    """))
+        )"""))
         connection.commit()
 
 
 
-def add_activity(name,location,cost):
 
-    pass
+#if user exist already just return id
+def create_user(username):
+    with engine.connect() as connection:
+        check = connection.execute(
+            db.text("""SELECT user_id FROM users WHERE user_name = :username"""),
+            {"username": username}
+            ).fetchone()
+        #user exist already
+        if check:
+            return check[0]
+        
+        result = connection.execute(
+            db.text("""INSERT INTO users (user_name) VALUES (:username)"""),
+            {"username": username}
+        )
+        connection.commit()
+        return result.lastrowid
+
+
+#we dont want to add duplicate records
+def add_activity(name,location,cost):
+    with engine.connect() as connection:
+        check = connection.execute(
+            db.text("""SELECT activity_id
+                    FROM activities
+                    WHERE activity_name = :name
+                    AND location = :location AND cost = :cost"""),
+            {"name": name,
+             "location": location,
+             "cost": cost
+             }
+            ).fetchone()
+        
+        #Record already exist
+        if check:
+            return check[0]
+        
+        result = connection.execute(
+            db.text("""INSERT INTO activities (activity_name, location, cost) VALUES (:activity_name, :location, :cost)"""),
+            {"activity_name": name,
+             "location": location,
+             "cost": cost
+             }
+            )
+        connection.commit()
+        return result.lastrowid
+
 
 
 
@@ -41,23 +85,7 @@ def like_activity(user_id,activity_id):
 
 
 
-#if user exist already just return id
-def create_user(username):
-    with engine.connect() as connection:
-        result = connection.execute(
-            db.text("""SELECT user_id FROM users WHERE user_name = :username"""),
-            {"username": username}
-            ).fetchone()
-        #user exist already
-        if result:
-            return result[0]
-        
-        result = connection.execute(
-            db.text("""INSERT INTO users (user_name) VALUES (:username)"""),
-            {"username": username}
-        )
-        connection.commit()
-        return result.lastrowid
+
 
 
 
