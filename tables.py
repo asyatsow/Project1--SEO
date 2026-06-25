@@ -11,5 +11,8 @@ class User(database.Model):
     email = database.Column(db.String(120), unique=True, nullable=False)
 
 
+
     def __repr__(self):
         return f'<User {self.username}>'
+
+
