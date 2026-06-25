@@ -21,9 +21,18 @@ def create_database():
             PRIMARY KEY (user_id,activity_id)
         )
     """))
-        
-        
     connection.commit()
+
+
+
+def add_activity(name,location,cost):
+    pass
+
+
+
+
+def like_activity(user_id,activity_id):
+    pass
 
     
 
