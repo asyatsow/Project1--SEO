@@ -1,10 +1,14 @@
 import requests
 import os
+from google import genai
+from google.genai import types
 from dotenv import load_dotenv
 
 load_dotenv()
 maps_key =  os.getenv('MAPS_KEY')
-#gemini_key = os.getenv('GEMINI_KEY')
+gemini_key = os.getenv('GEMINI_KEY')
+genai.api_key = gemini_key
+client = genai.Client(api_key=gemini_key)
 
 
 #converts users location into lat and long coordinates(for geminiapi)
@@ -25,10 +29,35 @@ def get_coordinates(location):
     lattitude, longitude = coordinates['lat'],coordinates['lng']
     return (formatted_address,lattitude,longitude)
 
-#location = input("Where are you heading? ")
-address,lat,long = get_coordinates("Brooklyn, NY")
-print(address,lat,long)
 
+#Gen-AI API Integration("put in loop later if user enters malformed text")
+location = input("Where are you heading?: ")
+address,lat,long = get_coordinates(location)
+budget = int(input("What is your budget: "))
+#Configure model to recommend activties not over budget price
+response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    config=types.GenerateContentConfig(
+        system_instruction= "You are a travel tour guide recomending people activities." \
+        "Generate realistic activties near the provided coordinates. " \
+        "Only include activties that do not excede the user's budget"),
+        contents = f"""Find at most 5 activites to do near:
+        Latitude: {lat}
+        Longitude: {long}
+        Budget limit: {budget}
+
+        For each activty include:
+        - The name of the activity
+        - The estimated cost of the activty
+        
+        Return the results in a numbered list
+        """
+    )
+
+#implement liking/saving songs functionaility after
+print(response.text)
+
+#Next_steps: implement into a function, and add database functionality.
 
     
 
