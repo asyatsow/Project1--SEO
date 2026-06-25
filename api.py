@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
+load_dotenv()
 gemini_key = os.getenv('GEMINI_KEY')
 genai.api_key = gemini_key
 client = genai.Client(api_key=gemini_key)

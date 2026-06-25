@@ -16,10 +16,10 @@ activities = create_activities(lat,long,budget)
 activity_ids = []               #used for database functions to get queries
 
 
-for activity in activities:
-    #add_activity(placeholder to add activity to database)
-    activity_id = add_activity(activity["name"],activity["location"],activity["cost"])
-    activity_ids.append(activity_id)
+# for activity in activities:
+#     #add_activity(placeholder to add activity to database)
+#     activity_id = add_activity(activity["name"],activity["location"],activity["cost"])
+#     activity_ids.append(activity_id)
 
 print("\nHere are the activities we reccommend!: \n")
 
@@ -31,19 +31,19 @@ for i, activity in enumerate(activities,start=1):
     print()
 
 
-#liking activities functionality
-choices = input("Enter the the activty numbers you would want to like (e.g. 1,3,5)")
-choices = choices.split(",")
-for choice in choices:
-    idx = int(choice.strip())
-    if 0 <= idx <= len(activity_ids):
-        curr_activity_id = activity_ids[idx]
-        #placeholder record in database
-        like_activity(user_id,curr_activity_id)
-    else:
-        print(f"Activity {choice.strip()} does not exist.")
+# #liking activities functionality
+# choices = input("Enter the the activty numbers you would want to like (e.g. 1,3,5)")
+# choices = choices.split(",")
+# for choice in choices:
+#     idx = int(choice.strip())
+#     if 0 <= idx <= len(activity_ids):
+#         curr_activity_id = activity_ids[idx]
+#         #placeholder record in database
+#         like_activity(user_id,curr_activity_id)
+#     else:
+#         print(f"Activity {choice.strip()} does not exist.")
 
-print("Added to your liked activities!!")
+# print("Added to your liked activities!!")
 
 
 
