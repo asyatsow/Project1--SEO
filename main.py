@@ -22,6 +22,7 @@ for activity in activities:
     activity_id = add_activity(activity["name"],activity["location"],activity["cost"])
     activity_ids.append(activity_id)
 
+
 print("\nHere are the activities we reccommend!: \n")
 
 #print the activties to the screen
