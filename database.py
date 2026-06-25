@@ -79,7 +79,7 @@ def add_activity(name,location,cost):
 
 
 
-
+#implement next
 def like_activity(user_id,activity_id):
     pass
 

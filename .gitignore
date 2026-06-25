@@ -1,2 +1,4 @@
 #Ignore api keys 
 .env
+explorer_hub.db
+__pycache__
