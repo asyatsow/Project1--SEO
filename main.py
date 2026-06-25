@@ -1,19 +1,21 @@
 
 from api import get_coordinates, create_activities
-from database import create_database,add_activity,like_activity
+from database import create_database,add_activity,like_activity,create_user
 
 create_database()
-user_id = 1         #placeholder when user table gets created.
-location = input("Where are you heading?: ")
-budget = int(input("What is your budget: "))
-coordinates = get_coordinates(location)
-if coordinates is None:
-    print("Location not found, please try again")
-else:
-    address,lat,long = coordinates
+user_name = input("Enter Username: ")
+user_id =  create_user(user_name)
+print(user_id)
+# location = input("Where are you heading?: ")
+# budget = int(input("What is your budget: "))
+# coordinates = get_coordinates(location)
+# if coordinates is None:
+#     print("Location not found, please try again")
+# else:
+#     address,lat,long = coordinates
 
-activities = create_activities(lat,long,budget)
-activity_ids = []               #used for database functions to get queries
+# activities = create_activities(lat,long,budget)
+# activity_ids = []               #used for database functions to get queries
 
 
 # for activity in activities:
@@ -21,14 +23,14 @@ activity_ids = []               #used for database functions to get queries
 #     activity_id = add_activity(activity["name"],activity["location"],activity["cost"])
 #     activity_ids.append(activity_id)
 
-print("\nHere are the activities we reccommend!: \n")
+# print("\nHere are the activities we reccommend!: \n")
 
-#print the activties to the screen
-for i, activity in enumerate(activities,start=1):
-    print(f"{i}. {activity["name"]}")
-    print(f" Location: {activity["location"]}")
-    print(f" Cost:  ${activity["cost"]}")
-    print()
+# #print the activties to the screen
+# for i, activity in enumerate(activities,start=1):
+#     print(f"{i}. {activity["name"]}")
+#     print(f" Location: {activity["location"]}")
+#     print(f" Cost:  ${activity["cost"]}")
+#     print()
 
 
 # #liking activities functionality
