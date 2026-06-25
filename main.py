@@ -1,17 +1,40 @@
 import requests
 import os
-#from api import get_coordinates
+from api import get_coordinates, create_activities
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 from database import create_database
 
 create_database()
-load_dotenv()
-maps_key =  os.getenv('MAPS_KEY')
-gemini_key = os.getenv('GEMINI_KEY')
-genai.api_key = gemini_key
-client = genai.Client(api_key=gemini_key)
+location = input("Where are you heading?: ")
+budget = int(input("What is your budget: "))
+coordinates = get_coordinates(location)
+if coordinates is None:
+    print("Location not found, please try again")
+else:
+    address,lat,long = coordinates
+
+activities = create_activities(lat,long,budget)
+activity_ids = []           #used for database functions to get queries
+
+
+for activity in activities:
+    #call database function to get id then add to list
+
+
+
+
+#liking activities functionality
+choices = input("Enter the the activty numbers you would want to like (e.g. 1,3,5)")
+choices = choices.split(",")
+for choice in choices:
+    idx = int(choice.strip())-1
+    curr_activity_id = activity_ids[idx]
+    #placeholder record in database
+    like_activity(user_id,curr_activity_id)
+
+
 
 
 #converts users location into lat and long coordinates(for geminiapi)
