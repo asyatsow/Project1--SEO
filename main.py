@@ -7,16 +7,15 @@ user_name = input("Enter Username: ")
 user_id =  create_user(user_name)
 location = input("Where are you heading?: ")
 budget = int(input("What is your budget: "))
-coordinates = get_coordinates(location)
+coordinates = get_coordinates(location)     #lat,long coordinates for gemini api
 
 if coordinates is None:
     print("Location not found, please try again")
 else:
     address,lat,long = coordinates
 
-activities = create_activities(lat,long,budget)
-activity_ids = []   #used to add to liked activities
-
+activities = create_activities(lat,long,budget)     #gemini api call to store new activities in database
+activity_ids = []   #Stores ids of the activties to be used for liked_activties table
 
 #add each generated activity to database if not present already and store id
 for activity in activities:
@@ -36,7 +35,7 @@ for i, activity in enumerate(activities,start=1):
 
 #User enters comma seperated sequence of numbers.
 #Parsed to be the activties the user likes and stored in the database.
-choices = input("Enter the the activity numbers you would want to like, 0 if none (e.g. 1,3,5)")
+choices = input("Like the activities you find interesting! (e.g. 1,3,5), Enter 0 if no activity")
 if choices == 0:
     print("You liked no activties")
 else:
@@ -56,11 +55,3 @@ print("Added to your liked activities!!")
 
 
 
-
-    
-
-
-
-
-
-    

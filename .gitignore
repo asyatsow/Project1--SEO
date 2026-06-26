@@ -1,5 +1,6 @@
 #Ignore api keys
 .env
+.venv
 *.db
 *.sqlite3
 __pycache__

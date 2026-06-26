@@ -1,7 +1,6 @@
 import sqlalchemy as db
 
 engine = db.create_engine('sqlite:///explorer_hub.db')
-#activities table for database
 def create_database():
     #Activities table(activity_id,activity_name,location,cost)
     with engine.connect() as connection:
@@ -29,7 +28,7 @@ def create_database():
 
 
 
-#if user exist already just return id
+#if user exist already just return user_id
 def create_user(username):
     with engine.connect() as connection:
         check = connection.execute(
@@ -45,7 +44,7 @@ def create_user(username):
             {"username": username}
         )
         connection.commit()
-        return result.lastrowid
+        return result.lastrowid     #returns id of last row inserted
 
 
 
@@ -64,7 +63,7 @@ def add_activity(name,location,cost):
              }
             ).fetchone()
         
-        #Record already exist
+        #Record already exist just return activity_id
         if check:
             return check[0]
         
@@ -81,7 +80,7 @@ def add_activity(name,location,cost):
 
 
 
-#store the (user_idmactivity_id) pair in the database. Indicates user_id likes activity number activity_id
+#INSERT the (user_id,activity_id) pair in the database. Indicates user_id likes activity number activity_id
 def like_activity(user_id,activity_id):
     if user_id <= 0 or activity_id <= 0: return     #malformed inputs check
     #no duplicate pairs
@@ -96,7 +95,7 @@ def like_activity(user_id,activity_id):
         if check:
             return
             
-        
+        #If pair does not exist insert into DATABASE
         result = connection.execute(
             db.text("""INSERT INTO liked_activities (user_id,activity_id)
         VALUES (:user_id,:activity_id)"""),

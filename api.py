@@ -1,9 +1,11 @@
+#This file handles all the API Interactions with Maps and Gemini
 import requests
 import json
 import os
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+
 
 load_dotenv()
 gemini_key = os.getenv('GEMINI_KEY')
@@ -20,7 +22,6 @@ def get_coordinates(location):
     response = requests.get(url,params = {"address": location, "key": maps_key})
     data = response.json()
 
-
     #error check if location does not exist
     if data['status']!= "OK":
         return None
@@ -30,6 +31,9 @@ def get_coordinates(location):
     formatted_address = data["results"][0]["formatted_address"]
     lattitude, longitude = coordinates['lat'],coordinates['lng']
     return (formatted_address,lattitude,longitude)
+
+
+
 
 def create_activities(lat,long,budget):
     response = client.models.generate_content(
