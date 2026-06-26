@@ -48,6 +48,8 @@ def create_user(username):
         return result.lastrowid
 
 
+
+
 #we dont want to add duplicate records
 def add_activity(name,location,cost):
     with engine.connect() as connection:
@@ -79,9 +81,32 @@ def add_activity(name,location,cost):
 
 
 
-#implement next
+#store the (user_idmactivity_id) pair in the database. Indicates user_id likes activity number activity_id
 def like_activity(user_id,activity_id):
-    pass
+    if user_id <= 0 or activity_id <= 0: return     #malformed inputs check
+    #no duplicate pairs
+    with engine.connect() as connection:
+        check = connection.execute(
+            db.text("""SELECT user_id, activity_id
+            FROM liked_activities
+            WHERE user_id = :user_id AND activity_id = :activity_id """),
+            {"user_id": user_id, "activity_id": activity_id}
+            ).fetchone()
+        #if pair already exist just exit function
+        if check:
+            return
+            
+        
+        result = connection.execute(
+            db.text("""INSERT INTO liked_activities (user_id,activity_id)
+        VALUES (:user_id,:activity_id)"""),
+        {"user_id": user_id, "activity_id": activity_id})
+        connection.commit()
+
+
+
+
+
 
 
 
